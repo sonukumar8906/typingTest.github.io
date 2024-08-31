@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>typing Speed test</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            .montserrat-<uniquifier> {
+            font-family: "Montserrat", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: <weight>;
+            font-style: normal;
+}
+        }
+        .main_container{
+        width: 100%;
+        height: 98vh;
+        position: relative;
+        background: rgb(209, 197, 220);
+        }
+
+        .child_container{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50% , -50%);
+            text-align: center;
+        }
+
+        textarea{
+            resize: none;
+            outline: none;
+            font-size: 20px;
+            padding: 10px;
+            background:#103657;
+            color: #fff;
+            width: 75vw;
+            border-radius: 10px;
+            margin-top: 34px;
+            border: 15px solid #3d2828;
+        }
+#btn{
+    padding: 3px 23px;
+   font-size: 19px;
+   border-radius: 10px;
+   border: none;
+   background: #5f3685;
+   color: white;
+   font-weight: 600;
+   margin-top: 29px;
+   transition:all 0.5s ease-in-out;
+}
+
+#btn:hover{
+ background: wheat; 
+ color: black; 
+}
+
+h1{
+    font-size: 39px;
+    margin-bottom: 23px;
+}
+    </style>
+</head>
+<body>
+    <div class="main_container">
+        <div class="child_container">
+            <h1>Welcome To typing Speed test</h1>
+            <h2 id="msg"></h2>
+            <textarea id="text" cols="100" rows="15" placeholder="type here"></textarea>
+            <br>
+            <button id="btn">Start</button>
+        </div>
+    </div>
+
+  <script>
+    const setOfWords = [
+        'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+        'Contrary to popular belief, Lorem Ipsum is not simply random text.',
+        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced',
+        'There is a set of mock banners available here in three colours and in a range',
+        'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur',
+        'It is a long established fact that a reader will be distracted by the readable'
+    ];
+
+    // console.log(setOfWords.length);
+
+    const msg = document.querySelector('#msg');
+    const myWords = document.querySelector('#text');
+    const button1 = document.querySelector('#btn');
+    
+    const playGame = () =>{
+        let randomNum = Math.floor(Math.random()*setOfWords.length);
+        msg.innerText = setOfWords[randomNum];
+        let date = new Date();
+        startTime = date.getTime();
+        button1.innerText = "Done";
+    }
+
+    const endplay = () =>{
+        let date = new Date();
+        endTime = date.getTime();
+        // console.log(endTime)
+        totalTime = (endTime - startTime)/1000;
+        let totalStr = myWords.value;
+        let totalCount = totalCounter(totalStr);
+        let speed = Math.round((totalCount / totalTime)*60);
+        let finalMsg =" you typed total at " + speed + " word per minutes "
+        finalMsg += compareWord(msg.innerText, totalStr);
+        msg.innerText = finalMsg;
+    }
+
+    const compareWord = function(str1, str2){
+     let words1 = str1.split(" ");
+     let words2 = str2.split(" ");
+    let cnt=0;
+
+    words1.forEach(function(items, index){
+        if(items == words2[index]){
+            cnt++;
+        }
+    })
+
+    let errorWords = (words1.length - cnt);
+    return (cnt + " correct out of " + words1.length + " word and the total number of error are " + errorWords + ".");
+    }
+
+    const totalCounter = (Str) =>{
+    let response = Str.split(" ").length;
+        return response;
+    } 
+
+   button1.addEventListener('click', function(){
+    if(this.innerText == 'Start'){
+        myWords.disabled = false;
+        playGame();  
+    }else if(this.innerText == 'Done'){
+        myWords.disabled = true;
+        button1.innerText = "Start";
+        endplay();
+    }
+   });
+  </script>
+</body>
+</html>
